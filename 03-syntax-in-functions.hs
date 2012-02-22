@@ -17,10 +17,11 @@ interval :: (Num a) => (a,a,a,a) -> (a,a,a,a) -> a
 interval (t1,x1,y1,z1) (t2,x2,y2,z2) = -(t2-t1)^2 + (x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2
 
 -- helper - look for the "exciting" magic number. can you guess what it means?
-lambda :: (Floating a) => a -> a
-lambda v = 1/sqrt(1-(v^2/299792458.0^2))
+-- moved to where block in lorentzTransform
+--lambda :: (Floating a) => a -> a
+--lambda v = 1/sqrt(1-(v^2/299792458.0^2))
 
 -- assume vector is rotated to x-axis (simple transform)
 lorentzTransform :: (Floating a) => a -> (a,a,a,a) -> (a,a,a,a)
-lorentzTransform v (t,x,y,z) = (t*lambda v - v*x*lambda v, -v*t*lambda v + x*lambda v, y, z)
-
+lorentzTransform v (t,x,y,z) = (t*lambda - v*x*lambda, -v*t*lambda + x*lambda, y, z)
+	where lambda = 1/sqrt(1-(v^2/299792458.0^2))
